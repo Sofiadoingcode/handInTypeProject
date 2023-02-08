@@ -6,7 +6,7 @@ const calculate = async (x,y,callback) => {
             console.log(data);
             return (data);
         } catch (e) {
-            reject(e.message)
+            throw new Error(e.message)
 
         }
     };
