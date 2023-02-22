@@ -10,18 +10,11 @@ function App() {
       <InputComp setName={setName}/>
       <OutPutComp name={name}/>
       <PeopleViewer/>
-      <AddPerson/>
     </div>
     
   )
 }
 
-function AddPerson(): ReactElement {
-  
-
-
-
-}
 
 
 
@@ -91,9 +84,25 @@ function PeopleViewer(): ReactElement {
         </tbody>
       </table>
 
+      <AddPerson/>
+
     </div>
 
   )
+}
+
+function AddPerson(): ReactElement {
+  
+  
+  return(
+    <div>
+        <button onClick={}>Add person</button>
+
+    </div>
+
+  )
+
+
 }
 
 
