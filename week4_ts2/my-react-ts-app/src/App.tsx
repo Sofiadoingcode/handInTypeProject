@@ -1,6 +1,8 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, ReactEventHandler, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+
+let URL: string = "http://localhost:3008/person";
 
 function App() {
   const [name, setName] = useState("")
@@ -38,6 +40,27 @@ function OutPutComp(props: {name: string}): ReactElement {
 
 }
 
+function makeOptions(method: string, body?: JSON ) {
+  method = method ? method : 'GET';
+  const opts = {
+      method: method,
+      headers: {
+          ...(['PUT', 'POST'].includes(method) && {
+              "Content-type": "application/json"
+          }),
+          "Accept": "application/json"
+      },
+
+      body: ""
+  }
+
+  if (body) {
+    opts.body = JSON.stringify(body);
+  }
+  
+  return opts;
+}
+
 function PeopleViewer(): ReactElement {
   const [people, setPeople] = useState([]);
 
@@ -48,12 +71,16 @@ function PeopleViewer(): ReactElement {
 
   }
 
+
+  const[update, setUpdate] = useState({});
+  //JSON server endpoints are premade, link/person GET, link/person POST, link/person/id PUT, link/person/id DELETE
   useEffect(() => {
-    fetch("http://localhost:3008/person")
+    const options = makeOptions("GET");
+    fetch(URL)
     .then((res) => res.json())
     .then((res) => setPeople(res))
 
-  }, []
+  }, [update]
   );
 
 
@@ -84,19 +111,59 @@ function PeopleViewer(): ReactElement {
         </tbody>
       </table>
 
-      <AddPerson/>
+      <AddPerson update={update} setUpdate={setUpdate}/>
 
     </div>
 
   )
 }
 
-function AddPerson(): ReactElement {
-  
-  
+function AddPerson(props: {update:{}, setUpdate:React.Dispatch<React.SetStateAction<{}>>}): ReactElement {
+  const[person, setPerson] = useState({});
+
+  const onChange = (evt: any) => {
+    setPerson({...person, [evt.target.id]: evt.target.value})
+  }
+
+  const submit = () => {
+    const options = makeOptions("POST", person);
+    fetch(URL, options).then(() =>
+    props.setUpdate(!props.update));
+} 
+
+
   return(
     <div>
-        <button onClick={}>Add person</button>
+        <h2 className="h2title">Add Person</h2>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >Name</span>
+                </div>
+                <input type="text" id="name" className="form-control input_field" aria-label="Name"
+                       onChange={onChange}
+                       aria-describedby="basic-addon1"/>
+        </div>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >Age</span>
+                </div>
+                <input type="text" id="age" className="form-control input_field" aria-label="Name"
+                       onChange={onChange}
+                       aria-describedby="basic-addon1"/>
+        </div>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >City</span>
+                </div>
+                <input type="text" id="city" className="form-control input_field" aria-label="Name"
+                       onChange={onChange}
+                       aria-describedby="basic-addon1"/>
+        </div>
+
+        <button onClick={submit}>Add person</button>
 
     </div>
 
@@ -104,6 +171,8 @@ function AddPerson(): ReactElement {
 
 
 }
+
+
 
 
 export default App
