@@ -65,6 +65,7 @@ function PeopleViewer(): ReactElement {
   const [people, setPeople] = useState([]);
 
   type Person = {
+    id: number,
     name: string, 
     age: number,
     city: string
@@ -89,9 +90,10 @@ function PeopleViewer(): ReactElement {
       <table>
         <thead>
           <tr>
-          <th>Name</th>
-          <th>Age</th>
-          <th>City</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
           </tr>
         </thead>
 
@@ -99,9 +101,11 @@ function PeopleViewer(): ReactElement {
           {people.map(
             (person: Person) => 
             <tr>
+              <td>{person.id}</td>
               <td>{person.name}</td>
               <td>{person.age}</td>
               <td>{person.city}</td>
+              <DeletePerson update={update} setUpdate={setUpdate} id={person.id}/>
 
 
             </tr>
@@ -164,6 +168,27 @@ function AddPerson(props: {update:{}, setUpdate:React.Dispatch<React.SetStateAct
         </div>
 
         <button onClick={submit}>Add person</button>
+
+    </div>
+
+  )
+
+
+}
+
+function DeletePerson(props: {update:{}, setUpdate:React.Dispatch<React.SetStateAction<{}>>, id:number}): ReactElement {
+
+  const submit = () => {
+    const options = makeOptions("DELETE");
+    fetch(URL + "/" + props.id, options).then(() =>
+    props.setUpdate(!props.update));
+} 
+
+
+  return(
+    <div>
+
+        <button onClick={submit}>Delete person</button>
 
     </div>
 
