@@ -107,7 +107,6 @@ function PeopleViewer(): ReactElement {
               <td>{person.city}</td>
               <DeletePerson update={update} setUpdate={setUpdate} id={person.id}/>
 
-
             </tr>
             
           )}
@@ -116,7 +115,7 @@ function PeopleViewer(): ReactElement {
       </table>
 
       <AddPerson update={update} setUpdate={setUpdate}/>
-
+      <UpdatePerson update={update} setUpdate={setUpdate}/>
     </div>
 
   )
@@ -189,6 +188,76 @@ function DeletePerson(props: {update:{}, setUpdate:React.Dispatch<React.SetState
     <div>
 
         <button onClick={submit}>Delete person</button>
+
+    </div>
+
+  )
+
+
+}
+
+function UpdatePerson(props: {update:{}, setUpdate:React.Dispatch<React.SetStateAction<{}>>}): ReactElement {
+  const [person, setPerson] = useState({
+    id: Number, 
+    name: String, 
+    age: Number, 
+    city: String
+  });
+  const [id, setID] = useState({});
+
+  const onChange = (evt:any) => {
+    setPerson({...person, [evt.target.id]: evt.target.value})
+}
+
+  const submit = () => {
+    const options = makeOptions("PUT", person);
+    fetch(URL + "/" + person.id, options).then(() =>
+    props.setUpdate(!props.update));
+} 
+
+
+  return(
+    <div>
+        <h2 className="h2title">Update Person</h2>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >ID</span>
+                </div>
+                <input type="text" id="id" className="form-control input_field" aria-label="Name"
+                      onChange={onChange}
+                      aria-describedby="basic-addon1"/>
+        </div>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >Name</span>
+                </div>
+                <input type="text" id="name" className="form-control input_field" aria-label="Name"
+                      onChange={onChange}
+                      aria-describedby="basic-addon1"/>
+        </div>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >Age</span>
+                </div>
+                <input type="text" id="age" className="form-control input_field" aria-label="Name"
+                      onChange={onChange}
+                      aria-describedby="basic-addon1"/>
+        </div>
+
+        <div className="input-group mb-3">
+                <div className="input-group-prepend">
+                    <span className="input-group-text" >City</span>
+                </div>
+                <input type="text" id="city" className="form-control input_field" aria-label="Name"
+                      onChange={onChange}
+                      aria-describedby="basic-addon1"/>
+        </div>
+      
+
+        <button onClick={submit}>Update person</button>
 
     </div>
 
