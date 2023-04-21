@@ -4,6 +4,15 @@ import './App.css'
 
 let URL: string = "http://localhost:3008/person";
 
+type Person = {
+  id: number,
+  name: string, 
+  age: number,
+  city: string
+
+}
+
+
 function App() {
   const [name, setName] = useState("")
 
@@ -132,7 +141,7 @@ function AddPerson(props: {update:{}, setUpdate:React.Dispatch<React.SetStateAct
     const options = makeOptions("POST", person);
     fetch(URL, options).then(() =>
     props.setUpdate(!props.update));
-} 
+    } 
 
 
   return(
