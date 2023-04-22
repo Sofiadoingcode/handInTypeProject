@@ -18,6 +18,7 @@
   "dependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/lodash": "^4.14.191",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "logger": "^0.0.1"
   }
 }
