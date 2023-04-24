@@ -9,17 +9,20 @@ import cors from 'cors';
 import body_parser_pkg from 'body-parser';
 const { json } = body_parser_pkg;
 
-import { people } from './data'
+import { people, addresses } from './data'
 import Mutation from './resolvers/Mutation';
 import Query from './resolvers/Query';
+import Address from './resolvers/Address';
 
 interface MyContext {
     people: typeof people;
+    addresses: typeof addresses;
 };
 
 const resolvers = {
     Mutation, 
     Query,
+    Address,
 };
 
 const app = express();
@@ -39,7 +42,7 @@ cors<cors.CorsRequest>(),
 json(),
 expressMiddleware(server, {
   context: async() => ({
-    people
+    people, addresses
 })},
 )
 );

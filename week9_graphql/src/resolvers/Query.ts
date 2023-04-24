@@ -4,4 +4,5 @@ export default {
     person: (_parent:never, { id }:Args, {people}:Context) => { 
         people.find((person) => 
             person.id === id); },
+        addresses: (_parent:never, _args:Args, {addresses}:Context) => addresses,
 }

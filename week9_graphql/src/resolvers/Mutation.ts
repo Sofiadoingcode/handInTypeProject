@@ -8,6 +8,7 @@ export default {
           age: input.age,
           occupation: input.occupation,
           salary: input.salary,
+          addressId: input.addressId,
         };
         console.log('input: ', input, newPerson);
         people.push(newPerson);

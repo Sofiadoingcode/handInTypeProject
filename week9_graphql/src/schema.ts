@@ -5,12 +5,21 @@ type Person {
     age: Int!
     occupation: String
     salary: Float
-    
+    address: Address
+  }
+
+  type Address {
+    id: ID!
+    zipcode: Int!
+    street: String!
+    number: Int!
+    people: [Person!]!
   }
 
   type Query {
     people: [Person!]!
     person(id: ID!): Person
+    addresses: [Address!]!
   }
 
   type Mutation {
@@ -24,6 +33,7 @@ type Person {
     age: Int!
     occupation: String
     salary: Float
+    addressId: ID
   }
 
 

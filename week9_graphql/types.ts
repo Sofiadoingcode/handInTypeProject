@@ -4,14 +4,24 @@ type Person = {
     age: string;
     occupation: string;
     salary: string;
+    addressId: string;
 };
+
+type Address = {
+    id: string;
+    zipcode: string;
+    street: string;
+    number: string;
+
+}
 
 type Context = {
     people: Person[];
+    addresses: Address[];
 };
 type Args = {
     id: string;
-    input: Person;
+    input: Person | Address;
 };
 
-export type {Person, Context, Args};
+export type {Person, Address, Context, Args};
