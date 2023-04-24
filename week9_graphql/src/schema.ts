@@ -26,6 +26,8 @@ type Person {
     createPerson(input: PersonInput!): Person
     deletePerson(id: ID!): Boolean
     updatePerson(id: ID!, input: PersonInput!): Person
+    createAddress(input: AddressInput!): Address
+    addPersonToAddress(personId: ID!, addressId: ID!): Person
   }
 
   input PersonInput {
@@ -34,6 +36,12 @@ type Person {
     occupation: String
     salary: Float
     addressId: ID
+  }
+
+  input AddressInput {
+    zipcode: Int!
+    street: String!
+    number: Int!
   }
 
 

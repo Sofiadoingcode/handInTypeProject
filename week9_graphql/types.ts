@@ -21,6 +21,8 @@ type Context = {
 };
 type Args = {
     id: string;
+    personId: string;
+    addressId: string;
     input: Person | Address;
 };
 

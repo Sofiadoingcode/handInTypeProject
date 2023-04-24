@@ -1,4 +1,4 @@
-import { Person, Context, Args } from "../../types";
+import { Person, Context, Args, Address } from "../../types";
 export default {
     createPerson: (_parent:Person, { input }:Args, {people}:Context) => {
       if('name' in input){ 
@@ -37,5 +37,36 @@ export default {
       const updatedPerson = { ...person, ...input };
       people[index] = updatedPerson;
       return updatedPerson;
-    }
+    },
+
+    createAddress: (_parent:Address, { input }:Args, {addresses}:Context) => {
+        if('zipcode' in input){ 
+          const newAddress: Address = {
+            id: String(addresses.length + 1),
+            zipcode: input.zipcode,
+            street: input.street,
+            number: input.number,
+          };
+          addresses.push(newAddress);
+          return newAddress;
+        } else {
+          return null;
+        }
+        
+      },
+
+      addPersonToAddress: (_parent: never, { personId, addressId }:Args, {people}:Context) => {
+        const personIndex = people.findIndex(person => person.id === personId);
+        if (personIndex === -1) {
+          return null; // person not found
+        }
+        const person = people[personIndex];
+
+        person.addressId = addressId;
+        const updatedPerson = person;
+        people[personIndex] = updatedPerson;
+        return updatedPerson;
+      },
   }
+
+  
