@@ -33,24 +33,6 @@ app.get("/people", (req, res) => {
         })
 });
 
-app.get("/people/:id", (req, res) => {
-    let id = req.params.id;
-    let rawdata = fs.readFileSync('people.json');
-    let peopleJSON = JSON.parse(rawdata.toString());
-    let people = peopleJSON.people;
-    let person = {};
-    for (var i = 0; i < people.length; i++) {
-        if (people[i].id == id) {
-           person = people[i];
-        }
-    }
-    
-    res.status(200)
-        .json({
-            status: "success",
-            result: person
-        })
-});
 
 app.post('/people', (req, res) => {
     let data = req.body;
@@ -71,10 +53,34 @@ app.post('/people', (req, res) => {
 })
 
 
-app.get("/hello/:name", (res, req) => {
-    
+app.put("/people/:id", (req, res) => {
+    let id = req.params.id;
+    let data = req.body;
+    res.send('Data Received: ' + JSON.stringify(data) + id);
 
-})
+
+});
+
+app.get("/people/:id", (req, res) => {
+    let id = req.params.id;
+    let rawdata = fs.readFileSync('people.json');
+    let peopleJSON = JSON.parse(rawdata.toString());
+    let people = peopleJSON.people;
+    let person = {};
+    for (var i = 0; i < people.length; i++) {
+        if (people[i].id == id) {
+           person = people[i];
+        }
+    }
+    
+    res.status(200)
+        .json({
+            status: "success",
+            result: person
+        })
+});
+
+
 
 app.listen(3006, () => {
     console.log("Server is listening to http://localhost:3006");
