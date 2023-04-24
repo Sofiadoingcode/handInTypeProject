@@ -2,7 +2,7 @@ import { ReactElement, ReactEventHandler, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
-let URL: string = "http://localhost:3006";
+let URL: string = "http://localhost:3006/person";
 
 type Person = {
   id: number,

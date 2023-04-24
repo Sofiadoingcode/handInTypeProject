@@ -5,8 +5,7 @@ import fs = require("fs");
 
 const app = express();
 
-
-
+app.use(express.json());
 
 if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
@@ -33,6 +32,43 @@ app.get("/people", (req, res) => {
             result: people
         })
 });
+
+app.get("/people/:id", (req, res) => {
+    let id = req.params.id;
+    let rawdata = fs.readFileSync('people.json');
+    let peopleJSON = JSON.parse(rawdata.toString());
+    let people = peopleJSON.people;
+    let person = {};
+    for (var i = 0; i < people.length; i++) {
+        if (people[i].id == id) {
+           person = people[i];
+        }
+    }
+    
+    res.status(200)
+        .json({
+            status: "success",
+            result: person
+        })
+});
+
+app.post('/people', (req, res) => {
+    let data = req.body;
+    res.send('Data Received: ' + JSON.stringify(data));
+    
+    let fileData = fs.readFileSync('people.json');
+    let myObject= JSON.parse(fileData.toString());
+    myObject.push(data);
+    let newData = JSON.stringify(myObject);
+    fs.writeFile('people.json', newData, err => {
+        // error checking
+        if(err) throw err;
+    
+        console.log("New data added");
+    });   
+
+
+})
 
 
 app.get("/hello/:name", (res, req) => {
